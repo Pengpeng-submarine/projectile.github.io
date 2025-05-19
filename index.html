@@ -219,7 +219,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: `motion of object (angle: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`
+                        text: `motion of object (angle of projection: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`
                     },
                     tooltip: {
                         enabled: false // 禁用坐标提示
@@ -233,7 +233,7 @@
             const trajectory = calculateTrajectory(angle, velocity);
             
             trajectoryChart.data.datasets[0].data = trajectory;
-            trajectoryChart.options.plugins.title.text = `motion of object (angle: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`;
+            trajectoryChart.options.plugins.title.text = `motion of object (angle of projection: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`;
             
             // 计算最大水平距离，设置x轴范围
             const maxX = trajectory[trajectory.length - 1].x;
