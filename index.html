@@ -101,7 +101,6 @@
     </div>
 
     <script>
-        // 获取DOM元素
         const angleSlider = document.getElementById('angleSlider');
         const velocitySlider = document.getElementById('velocitySlider');
         const angleValue = document.getElementById('angleValue');
@@ -111,13 +110,12 @@
         const angleInput = document.getElementById('angleInput');
         const applyAngleBtn = document.getElementById('applyAngle');
         
-        // 初始参数
+        
         let angle = 45.0;
         let velocity = 20;
-        const g = 9.81; // 重力加速度 (m/s²)
-        let dragPointPosition = { x: 20, y: 0 }; // 初始位置
-        
-        // 计算抛射体轨迹
+        const g = 9.81; 
+        let dragPointPosition = { x: 20, y: 0 }; 
+   
         function calculateTrajectory(angle, velocity, g = 9.8) {
             const angleRad = angle * Math.PI / 180;
             const timeOfFlight = 2 * velocity * Math.sin(angleRad) / g;
@@ -131,7 +129,7 @@
                 const x = velocity * Math.cos(angleRad) * t;
                 const y = velocity * Math.sin(angleRad) * t - 0.5 * g * t * t;
                 
-                // 只添加y >= 0的点
+                
                 if (y >= 0) {
                     points.push({x, y});
                 }
@@ -140,19 +138,19 @@
             return points;
         }
         
-        // 计算两点之间的距离
+        
         function calculateDistance(x1, y1, x2, y2) {
             return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         }
         
-        // 根据x坐标计算轨迹上的y坐标
+        
         function getYOnTrajectory(x, trajectory) {
-            // 如果x超出范围，返回0
+            
             if (x <= 0 || x >= trajectory[trajectory.length - 1].x) {
                 return 0;
             }
             
-            // 找到最接近的两个点
+            
             let i = 0;
             while (i < trajectory.length && trajectory[i].x < x) {
                 i++;
@@ -161,7 +159,7 @@
             if (i === 0) return trajectory[0].y;
             if (i >= trajectory.length) return 0;
             
-            // 线性插值计算y值
+            
             const x0 = trajectory[i-1].x;
             const y0 = trajectory[i-1].y;
             const x1 = trajectory[i].x;
@@ -170,7 +168,7 @@
             return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
         }
         
-        // 创建图表
+        
         const ctx = document.getElementById('trajectoryChart').getContext('2d');
         const trajectoryChart = new Chart(ctx, {
             type: 'scatter',
@@ -222,28 +220,28 @@
                         text: `motion of object (angle of projection: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`
                     },
                     tooltip: {
-                        enabled: false // 禁用坐标提示
+                        enabled: false 
                     }
                 }
             }
         });
         
-        // 更新图表
+        
         function updateChart() {
             const trajectory = calculateTrajectory(angle, velocity);
             
             trajectoryChart.data.datasets[0].data = trajectory;
             trajectoryChart.options.plugins.title.text = `motion of object (angle of projection: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`;
             
-            // 计算最大水平距离，设置x轴范围
+            
             const maxX = trajectory[trajectory.length - 1].x;
-            trajectoryChart.options.scales.x.max = Math.ceil(maxX * 1.05); // 增加5%的空间
+            trajectoryChart.options.scales.x.max = Math.ceil(maxX * 1.05); 
             
-            // 计算最大高度，设置y轴范围
+        
             const maxY = Math.max(...trajectory.map(point => point.y));
-            trajectoryChart.options.scales.y.max = Math.ceil(maxY * 1.1); // 增加10%的空间
+            trajectoryChart.options.scales.y.max = Math.ceil(maxY * 1.1); 
             
-            // 更新可拖动点的位置，确保它在轨迹上
+            
             if (dragPointPosition.x > maxX) {
                 dragPointPosition.x = maxX / 2;
             }
@@ -251,28 +249,28 @@
             dragPointPosition.y = getYOnTrajectory(dragPointPosition.x, trajectory);
             trajectoryChart.data.datasets[1].data = [dragPointPosition];
             
-            // 计算与原点的距离
+            
             const distance = calculateDistance(0, 0, dragPointPosition.x, dragPointPosition.y);
             distanceInfo.textContent = `Distance from initial point: ${distance.toFixed(2)} m`;
             
             trajectoryChart.update();
         }
         
-        // 处理鼠标点击和移动事件
+        
         chartCanvas.addEventListener('mousedown', function(e) {
             const canvasRect = chartCanvas.getBoundingClientRect();
             const chartArea = trajectoryChart.chartArea;
             
-            // 检查点击是否在图表区域内
+            
             if (e.clientX >= canvasRect.left + chartArea.left && 
                 e.clientX <= canvasRect.left + chartArea.right &&
                 e.clientY >= canvasRect.top + chartArea.top && 
                 e.clientY <= canvasRect.top + chartArea.bottom) {
                 
-                // 标记为拖动模式
+                
                 chartCanvas.isDragging = true;
                 
-                // 处理点击位置
+                
                 handleMouseMove(e);
             }
         });
@@ -295,12 +293,12 @@
             const canvasRect = chartCanvas.getBoundingClientRect();
             const chartArea = trajectoryChart.chartArea;
             
-            // 计算鼠标在图表中的x坐标
+            
             const xPixel = e.clientX - canvasRect.left;
             const xPercent = (xPixel - chartArea.left) / (chartArea.right - chartArea.left);
             const xValue = trajectoryChart.scales.x.min + xPercent * (trajectoryChart.scales.x.max - trajectoryChart.scales.x.min);
             
-            // 确保x在有效范围内
+           
             const trajectory = calculateTrajectory(angle, velocity);
             const maxX = trajectory[trajectory.length - 1].x;
             
@@ -308,10 +306,10 @@
                 dragPointPosition.x = xValue;
                 dragPointPosition.y = getYOnTrajectory(xValue, trajectory);
                 
-                // 更新图表
+                
                 trajectoryChart.data.datasets[1].data = [dragPointPosition];
                 
-                // 计算与原点的距离
+        
                 const distance = calculateDistance(0, 0, dragPointPosition.x, dragPointPosition.y);
                 distanceInfo.textContent = `Distance from origin: ${distance.toFixed(2)} m`;
                 
@@ -319,7 +317,7 @@
             }
         }
         
-        // 事件监听器
+        
         angleSlider.addEventListener('input', function() {
             angle = parseFloat(this.value);
             angleValue.textContent = angle.toFixed(1);
@@ -333,11 +331,11 @@
             updateChart();
         });
         
-        // 添加角度输入框的事件监听器
+        
         applyAngleBtn.addEventListener('click', function() {
             const inputAngle = parseFloat(angleInput.value);
             if (!isNaN(inputAngle) && inputAngle >= 0 && inputAngle <= 90) {
-                angle = Math.round(inputAngle * 10) / 10; // 四舍五入到小数点后一位
+                angle = Math.round(inputAngle * 10) / 10; 
                 angleSlider.value = angle;
                 angleValue.textContent = angle.toFixed(1);
                 angleInput.value = angle.toFixed(1);
@@ -348,14 +346,14 @@
             }
         });
         
-        // 添加回车键提交角度
+        
         angleInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 applyAngleBtn.click();
             }
         });
         
-        // 初始更新
+        
         updateChart();
     </script>
 </body>
