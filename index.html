@@ -233,7 +233,7 @@
             const trajectory = calculateTrajectory(angle, velocity);
             
             trajectoryChart.data.datasets[0].data = trajectory;
-            trajectoryChart.options.plugins.title.text = `motion of object (angle: ${angle.toFixed(1)}°, velocity: ${velocity} m/s)`;
+            trajectoryChart.options.plugins.title.text = `motion of object (angle: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`;
             
             // 计算最大水平距离，设置x轴范围
             const maxX = trajectory[trajectory.length - 1].x;
@@ -313,7 +313,7 @@
                 
                 // 计算与原点的距离
                 const distance = calculateDistance(0, 0, dragPointPosition.x, dragPointPosition.y);
-                distanceInfo.textContent = `distance from origin: ${distance.toFixed(2)} m`;
+                distanceInfo.textContent = `Distance from origin: ${distance.toFixed(2)} m`;
                 
                 trajectoryChart.update();
             }
@@ -343,7 +343,7 @@
                 angleInput.value = angle.toFixed(1);
                 updateChart();
             } else {
-                alert("Please enter angle between 0 and 90");
+                alert("Please enter an angle between 0 and 90");
                 angleInput.value = angle.toFixed(1);
             }
         });
