@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抛射体运动模拟</title>
+    <title>Projectile Motion Simulator</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
@@ -72,29 +72,29 @@
 </head>
 <body>
     <div class="container">
-        <h1>抛射体运动模拟</h1>
+        <h1>Projectile Motion Simulator</h1>
         
         <div class="chart-container">
             <canvas id="trajectoryChart"></canvas>
         </div>
         
         <div class="distance-info" id="distanceInfo">
-            与原点距离: 0 m
+            Distance from initial point: 0 m
         </div>
         
         <div class="controls">
             <div class="slider-container">
                 <div class="input-group">
-                    <label for="angleSlider">发射角度:</label>
+                    <label for="angleSlider">angle of projection:</label>
                     <span id="angleValue" class="value-display">45.0</span>°
                     <input type="number" id="angleInput" min="0" max="90" value="45.0" step="0.1">
-                    <button id="applyAngle">应用</button>
+                    <button id="applyAngle">apply</button>
                 </div>
                 <input type="range" id="angleSlider" min="0" max="90" value="45.0" step="0.1">
             </div>
             
             <div class="slider-container">
-                <label for="velocitySlider">初始速度: <span id="velocityValue" class="value-display">20</span> m/s</label>
+                <label for="velocitySlider">initial velocity: <span id="velocityValue" class="value-display">20</span> m/s</label>
                 <input type="range" id="velocitySlider" min="5" max="50" value="20" step="1">
             </div>
         </div>
@@ -114,7 +114,7 @@
         // 初始参数
         let angle = 45.0;
         let velocity = 20;
-        const g = 9.8; // 重力加速度 (m/s²)
+        const g = 9.81; // 重力加速度 (m/s²)
         let dragPointPosition = { x: 20, y: 0 }; // 初始位置
         
         // 计算抛射体轨迹
@@ -177,7 +177,7 @@
             data: {
                 datasets: [
                     {
-                        label: '抛射体轨迹',
+                        label: 'Trajectory',
                         data: calculateTrajectory(angle, velocity),
                         showLine: true,
                         borderColor: 'blue',
@@ -186,7 +186,7 @@
                         pointRadius: 0
                     },
                     {
-                        label: '可拖动点',
+                        label: 'moving point',
                         data: [dragPointPosition],
                         borderColor: 'red',
                         backgroundColor: 'red',
@@ -204,14 +204,14 @@
                         position: 'bottom',
                         title: {
                             display: true,
-                            text: '水平距离 (m)'
+                            text: 'horizontal displacement (m)'
                         },
                         min: 0
                     },
                     y: {
                         title: {
                             display: true,
-                            text: '垂直距离 (m)'
+                            text: 'vertical displacement (m)'
                         },
                         min: 0
                     }
@@ -219,7 +219,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: `抛射体运动 (角度: ${angle.toFixed(1)}°, 速度: ${velocity} m/s)`
+                        text: `motion of object (angle: ${angle.toFixed(1)}°, velocity: ${velocity} m/s)`
                     },
                     tooltip: {
                         enabled: false // 禁用坐标提示
@@ -233,7 +233,7 @@
             const trajectory = calculateTrajectory(angle, velocity);
             
             trajectoryChart.data.datasets[0].data = trajectory;
-            trajectoryChart.options.plugins.title.text = `抛射体运动 (角度: ${angle.toFixed(1)}°, 速度: ${velocity} m/s)`;
+            trajectoryChart.options.plugins.title.text = `motion of object (angle: ${angle.toFixed(1)}°, velocity: ${velocity} m/s)`;
             
             // 计算最大水平距离，设置x轴范围
             const maxX = trajectory[trajectory.length - 1].x;
@@ -253,7 +253,7 @@
             
             // 计算与原点的距离
             const distance = calculateDistance(0, 0, dragPointPosition.x, dragPointPosition.y);
-            distanceInfo.textContent = `与原点距离: ${distance.toFixed(2)} m`;
+            distanceInfo.textContent = `distance from initial point: ${distance.toFixed(2)} m`;
             
             trajectoryChart.update();
         }
@@ -313,7 +313,7 @@
                 
                 // 计算与原点的距离
                 const distance = calculateDistance(0, 0, dragPointPosition.x, dragPointPosition.y);
-                distanceInfo.textContent = `与原点距离: ${distance.toFixed(2)} m`;
+                distanceInfo.textContent = `distance from origin: ${distance.toFixed(2)} m`;
                 
                 trajectoryChart.update();
             }
@@ -343,7 +343,7 @@
                 angleInput.value = angle.toFixed(1);
                 updateChart();
             } else {
-                alert("请输入0到90之间的角度值");
+                alert("Please enter angle between 0 and 90");
                 angleInput.value = angle.toFixed(1);
             }
         });
