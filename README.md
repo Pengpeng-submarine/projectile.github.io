@@ -2,6 +2,8 @@
 
 This interactive web-based Projectile Motion Simulator provides a dynamic visualization tool for physics education. The application allows users to explore the parabolic trajectory of projectiles under the influence of gravity.
 
+You can reach this simulator at https://projectile.pengo820.org/
+
 ## Features
 
 - **Real-time Trajectory Visualization**: The simulator displays the complete parabolic path of a projectile based on physics equations.
