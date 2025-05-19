@@ -219,7 +219,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: `motion of object (angle: ${angle.toFixed(1)}°, velocity: ${velocity} m/s)`
+                        text: `motion of object (angle: ${angle.toFixed(1)}°, initial velocity: ${velocity} m/s)`
                     },
                     tooltip: {
                         enabled: false // 禁用坐标提示
@@ -253,7 +253,7 @@
             
             // 计算与原点的距离
             const distance = calculateDistance(0, 0, dragPointPosition.x, dragPointPosition.y);
-            distanceInfo.textContent = `distance from initial point: ${distance.toFixed(2)} m`;
+            distanceInfo.textContent = `Distance from initial point: ${distance.toFixed(2)} m`;
             
             trajectoryChart.update();
         }
